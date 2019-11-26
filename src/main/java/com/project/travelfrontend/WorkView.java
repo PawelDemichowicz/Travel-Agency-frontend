@@ -219,6 +219,10 @@ public class WorkView extends HorizontalLayout {
             noteForm.setNote(new Note());
         });
 
+        projectForm.setProject(null);
+        issueForm.setIssue(null);
+        noteForm.setNote(null);
+
     }
 
     public void refreshIssueToDoGrid(String projectName){

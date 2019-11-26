@@ -15,9 +15,6 @@ import com.vaadin.flow.component.textfield.TextAreaVariant;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-
 
 public class ProjectForm extends VerticalLayout {
 
@@ -65,6 +62,7 @@ public class ProjectForm extends VerticalLayout {
         counterDaysLayout.setSpacing(false);
 
         HorizontalLayout buttonsHorizontalWrapper = new HorizontalLayout(save,delete);
+
         VerticalLayout buttonsLayout = new VerticalLayout(addNewProject,buttonsHorizontalWrapper);
         buttonsLayout.setJustifyContentMode(JustifyContentMode.START);
 
@@ -157,6 +155,13 @@ public class ProjectForm extends VerticalLayout {
 
     public void setProject(Project project){
         binder.setBean(project);
+        if (project == null) {
+            getSave().setVisible(false);
+            getDelete().setVisible(false);
+        } else {
+            getSave().setVisible(true);
+            getDelete().setVisible(true);
+        }
     }
 
     public void save(){
@@ -170,8 +175,11 @@ public class ProjectForm extends VerticalLayout {
     }
 
     public String getDaysLeft(){
+        if (binder.getBean() == null){
+            return "";
+        }
         Long id  = binder.getBean().getId();
         return projectService.getDaysLeft(id);
-    }
+}
 
 }

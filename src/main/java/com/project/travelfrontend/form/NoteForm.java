@@ -22,7 +22,7 @@ public class NoteForm extends VerticalLayout {
 
     private NoteService noteService = NoteService.getInstance();
 
-    private Label label = new Label("NOTE DATA");
+    private Label label = new Label("NOTES");
     private TextArea description = new TextArea("Note");
     private TextField title = new TextField("Title");
     private DatePicker createDate = new DatePicker("Create date");
@@ -44,8 +44,10 @@ public class NoteForm extends VerticalLayout {
     public NoteForm(WorkView workView){
         this.workView = workView;
 
-        HorizontalLayout buttonsWrapper = new HorizontalLayout(save,delete);
+        label.getStyle().set("fontWeight","bold");
+        label.getStyle().set("fontSize","30px");
 
+        HorizontalLayout buttonsWrapper = new HorizontalLayout(save,delete);
 
         VerticalLayout verticalLayout = new VerticalLayout(title,createDate,buttonsWrapper,addNewNote);
         verticalLayout.setWidth("300px");
@@ -81,6 +83,14 @@ public class NoteForm extends VerticalLayout {
         binder.bindInstanceFields(this);
     }
 
+    public Button getSave() {
+        return save;
+    }
+
+    public Button getDelete() {
+        return delete;
+    }
+
     public Grid<Note> getNoteGrid() {
         return noteGrid;
     }
@@ -111,6 +121,13 @@ public class NoteForm extends VerticalLayout {
 
     public void setNote(Note note){
         binder.setBean(note);
+        if (note == null) {
+            getSave().setVisible(false);
+            getDelete().setVisible(false);
+        } else {
+            getSave().setVisible(true);
+            getDelete().setVisible(true);
+        }
     }
 
     public Button getAddNewNote() {

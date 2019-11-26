@@ -152,6 +152,13 @@ public class IssueForm extends VerticalLayout {
 
     public void setIssue(Issue issue){
         binder.setBean(issue);
+        if (issue == null) {
+            getSave().setVisible(false);
+            getDelete().setVisible(false);
+        } else {
+            getSave().setVisible(true);
+            getDelete().setVisible(true);
+        }
     }
 
     public void save(String projectName, IssueType type,Project project){
@@ -180,7 +187,11 @@ public class IssueForm extends VerticalLayout {
     }
 
     public void countDays(){
-        Long id  = binder.getBean().getId();
-        textField.setValue(issueService.getDaysLeft(id));
+        if (binder.getBean() == null){
+            textField.setValue("");
+        }else {
+            Long id  = binder.getBean().getId();
+            textField.setValue(issueService.getDaysLeft(id));
+        }
     }
 }
