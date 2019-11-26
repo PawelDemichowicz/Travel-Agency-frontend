@@ -4,8 +4,6 @@ import com.project.travelfrontend.client.IssueClient;
 import com.project.travelfrontend.domain.Issue;
 import com.project.travelfrontend.domain.IssueType;
 
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
