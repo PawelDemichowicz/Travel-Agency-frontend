@@ -28,6 +28,10 @@ public class ProjectService {
         return projectClient.getProject(title);
     }
 
+    public String getDaysLeft(Long id){
+        return projectClient.getDaysLeft(id);
+    }
+
     public void saveProject(Project project){
         projectClient.createProject(project);
     }

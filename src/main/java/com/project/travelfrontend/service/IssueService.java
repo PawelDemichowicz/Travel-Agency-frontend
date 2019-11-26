@@ -24,14 +24,16 @@ public class IssueService {
     }
 
     public List<Issue> getFilteredIssue(IssueType type, String projectName){
-        if (projectName == null){
-            return new ArrayList<>();
-        }
         return issueClient.getIssues().stream()
                 .filter(issue -> Objects.nonNull(issue.getProject()))
-                .filter(issue -> projectName.contentEquals(issue.getProject().getTitle()))
-                .filter(issue -> type.equals(issue.getType()))
+                .filter(issue -> Objects.nonNull(issue.getType()))
+                .filter(issue -> issue.getProject().getTitle().equals(projectName))
+                .filter(issue -> issue.getType().equals(type))
                 .collect(Collectors.toList());
+    }
+
+    public String getDaysLeft(Long id){
+        return issueClient.getDaysLeft(id);
     }
 
     public void saveIssue(Issue issue){
@@ -40,11 +42,6 @@ public class IssueService {
 
     public void deleteIssueById(Long id){
         issueClient.deleteIssueById(id);
-    }
-
-    public String countDays(Issue issue){
-        String days = Long.toString(ChronoUnit.DAYS.between(issue.getCreateDate(),issue.getFinishDate()));
-        return days;
     }
 
 }

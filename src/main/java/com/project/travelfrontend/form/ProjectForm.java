@@ -15,6 +15,7 @@ import com.vaadin.flow.component.textfield.TextAreaVariant;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 
@@ -48,6 +49,8 @@ public class ProjectForm extends VerticalLayout {
 
         addNewProject.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         description.setHeight("300px");
+        label.getStyle().set("fontWeight","bold");
+        label.getStyle().set("fontSize","30px");
 
         textField.setReadOnly(true);
         textField.addThemeVariants(TextAreaVariant.LUMO_ALIGN_CENTER);
@@ -62,10 +65,14 @@ public class ProjectForm extends VerticalLayout {
         counterDaysLayout.setSpacing(false);
 
         HorizontalLayout buttonsHorizontalWrapper = new HorizontalLayout(save,delete);
+        VerticalLayout buttonsLayout = new VerticalLayout(addNewProject,buttonsHorizontalWrapper);
+        buttonsLayout.setJustifyContentMode(JustifyContentMode.START);
+
+        VerticalLayout verticalLayout = new VerticalLayout(buttonsLayout,counterDaysLayout);
 
         VerticalLayout verticalLayoutTitle = new VerticalLayout();
         verticalLayoutTitle.setHeight("400px");
-        verticalLayoutTitle.add(title, createDate, finishDate, buttonsHorizontalWrapper);
+        verticalLayoutTitle.add(title, createDate, finishDate);
 
         VerticalLayout verticalLayoutDate = new VerticalLayout();
         verticalLayoutDate.setHeight("400px");
@@ -74,14 +81,15 @@ public class ProjectForm extends VerticalLayout {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.setWidthFull();
         horizontalLayout.setHeight("400px");
-        horizontalLayout.add(verticalLayoutTitle,verticalLayoutDate, counterDaysLayout);
+        horizontalLayout.add(verticalLayoutTitle,verticalLayoutDate, verticalLayout);
 
 
-        add(label,addNewProject, horizontalLayout);
+        add(label, horizontalLayout);
 
         setMargin(false);
         setPadding(false);
         setHorizontalComponentAlignment(Alignment.END,addNewProject);
+        setHorizontalComponentAlignment(Alignment.END,buttonsHorizontalWrapper);
         setHorizontalComponentAlignment(Alignment.CENTER,label);
         setWidthFull();
         getStyle().set("border","1px solid #9E9E9E");
@@ -97,6 +105,10 @@ public class ProjectForm extends VerticalLayout {
         });
 
         binder.bindInstanceFields(this);
+    }
+
+    public TextArea getTextField() {
+        return textField;
     }
 
     public Dialog getDeleteDialog() {
@@ -150,19 +162,16 @@ public class ProjectForm extends VerticalLayout {
     public void save(){
         Project project = binder.getBean();
         projectService.saveProject(project);
-        workView.refreshProjectSelect();
     }
 
     public void delete(){
         Long id = binder.getBean().getId();
         projectService.deleteProjectById(id);
-        workView.refreshProjectSelect();
     }
 
-    public void countDays(){
-        Project project = binder.getBean();
-        String days = Long.toString(ChronoUnit.DAYS.between(project.getCreateDate(),project.getFinishDate()));
-        textField.setValue(days);
+    public String getDaysLeft(){
+        Long id  = binder.getBean().getId();
+        return projectService.getDaysLeft(id);
     }
 
 }

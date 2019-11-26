@@ -28,6 +28,14 @@ public class IssueClient {
         }
     }
 
+    public String getDaysLeft(Long id){
+        try {
+            return  restTemplate.getForObject("http://localhost:8080/v1/issue/daysLeft?id=" + id ,String.class);
+        }catch (RestClientException e){
+            return "";
+        }
+    }
+
     public void createIssue(Issue issue){
         try {
             restTemplate.postForObject("http://localhost:8080/v1/issue",issue,Issue.class);

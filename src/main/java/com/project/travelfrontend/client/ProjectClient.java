@@ -36,6 +36,14 @@ public class ProjectClient {
         }
     }
 
+    public String getDaysLeft(Long id){
+        try {
+            return  restTemplate.getForObject("http://localhost:8080/v1/project/daysLeft?id=" + id ,String.class);
+        }catch (RestClientException e){
+            return "";
+        }
+    }
+
     public void createProject(Project project){
         try {
             restTemplate.postForObject("http://localhost:8080/v1/project",project,Project.class);

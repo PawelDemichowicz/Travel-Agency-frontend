@@ -22,7 +22,7 @@ public class NoteService {
     public List<Note> getNotesByProjectTitle(String projectName){
         return noteClient.getNotes().stream()
                 .filter(note -> Objects.nonNull(note.getProject()))
-                .filter(note -> projectName.equals(note.getProject().getTitle()))
+                .filter(note -> note.getProject().getTitle().equals(projectName))
                 .collect(Collectors.toList());
     }
 

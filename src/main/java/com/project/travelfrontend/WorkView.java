@@ -119,12 +119,12 @@ public class WorkView extends HorizontalLayout {
 
         home.addClickListener(event -> home.getUI().ifPresent(ui -> ui.navigate("home")));
 
-        projectsSelect.addValueChangeListener(event -> refreshIssueToDoGrid(issueTypeToDo, projectsSelect.getValue()));
-        projectsSelect.addValueChangeListener(event -> refreshIssueDoingGrid(issueTypeDoing, projectsSelect.getValue()));
-        projectsSelect.addValueChangeListener(event -> refreshIssueDoneGrid(issueTypeDone, projectsSelect.getValue()));
+        projectsSelect.addValueChangeListener(event -> refreshIssueToDoGrid(projectsSelect.getValue()));
+        projectsSelect.addValueChangeListener(event -> refreshIssueDoingGrid(projectsSelect.getValue()));
+        projectsSelect.addValueChangeListener(event -> refreshIssueDoneGrid(projectsSelect.getValue()));
         projectsSelect.addValueChangeListener(event -> refreshNoteGrid(projectsSelect.getValue()));
         projectsSelect.addValueChangeListener(event -> projectForm.setProject(projectService.getProjectWithTitle(projectsSelect.getValue())));
-        projectsSelect.addValueChangeListener(event -> projectForm.countDays());
+        projectsSelect.addValueChangeListener(event -> projectForm.getTextField().setValue(projectForm.getDaysLeft()));
 
         projectForm.getAddNewProject().addClickListener(event ->{
             projectForm.setProject(new Project());
@@ -156,7 +156,9 @@ public class WorkView extends HorizontalLayout {
 
         issueForm.getYesDelete().addClickListener(event -> {
             issueForm.delete(projectsSelect.getValue(),issueForm.getIssue().getType());
-            refreshProjectSelect();
+            refreshIssueToDoGrid(projectsSelect.getValue());
+            refreshIssueDoingGrid(projectsSelect.getValue());
+            refreshIssueDoneGrid(projectsSelect.getValue());
             issueForm.getDeleteDialog().close();
         });
 
@@ -166,7 +168,9 @@ public class WorkView extends HorizontalLayout {
 
         issueForm.getYesSave().addClickListener(event -> {
             issueForm.save(projectsSelect.getValue(),issueForm.getIssue().getType(),projectForm.getProject());
-            refreshProjectSelect();
+            refreshIssueToDoGrid(projectsSelect.getValue());
+            refreshIssueDoingGrid(projectsSelect.getValue());
+            refreshIssueDoneGrid(projectsSelect.getValue());
             issueForm.getSaveDialog().close();
         });
 
@@ -174,15 +178,24 @@ public class WorkView extends HorizontalLayout {
             issueForm.getSaveDialog().close();
         });
 
-        gridToDo.asSingleSelect().addValueChangeListener(event -> issueForm.setIssue(gridToDo.asSingleSelect().getValue()));
-        gridDoing.asSingleSelect().addValueChangeListener(event -> issueForm.setIssue(gridDoing.asSingleSelect().getValue()));
-        gridDone.asSingleSelect().addValueChangeListener(event -> issueForm.setIssue(gridDone.asSingleSelect().getValue()));
+        gridToDo.asSingleSelect().addValueChangeListener(event -> {
+            issueForm.setIssue(gridToDo.asSingleSelect().getValue());
+            issueForm.countDays();
+        });
+        gridDoing.asSingleSelect().addValueChangeListener(event -> {
+            issueForm.setIssue(gridDoing.asSingleSelect().getValue());
+            issueForm.countDays();
+        });
+        gridDone.asSingleSelect().addValueChangeListener(event -> {
+            issueForm.setIssue(gridDone.asSingleSelect().getValue());
+            issueForm.countDays();
+        });
 
         noteForm.getNoteGrid().asSingleSelect().addValueChangeListener(
                 event -> noteForm.setNote(noteForm.getNoteGrid().asSingleSelect().getValue())
         );
         noteForm.getYesDelete().addClickListener(event -> {
-            noteForm.delete(projectsSelect.getValue());
+            noteForm.delete();
             refreshNoteGrid(projectsSelect.getValue());
             noteForm.getDeleteDialog().close();
         });
@@ -192,7 +205,7 @@ public class WorkView extends HorizontalLayout {
         });
 
         noteForm.getYesSave().addClickListener(event -> {
-            noteForm.save(projectsSelect.getValue(), projectForm.getProject());
+            noteForm.save(projectForm.getProject());
             refreshNoteGrid(projectsSelect.getValue());
             noteForm.getSaveDialog().close();
         });
@@ -206,20 +219,18 @@ public class WorkView extends HorizontalLayout {
             noteForm.setNote(new Note());
         });
 
-        //grid.asSingleSelect().addValueChangeListener(event -> textField.setValue(taskService.countDays(grid.asSingleSelect().getValue()) + "\n" + "DAYS LEFT"));
-       // grid.asSingleSelect().addValueChangeListener(event -> label.setText(grid.asSingleSelect().getValue().getTitle()));
     }
 
-    public void refreshIssueToDoGrid(IssueType type, String projectName){
-        gridToDo.setItems(issueService.getFilteredIssue(type,projectName));
+    public void refreshIssueToDoGrid(String projectName){
+        gridToDo.setItems(issueService.getFilteredIssue(IssueType.TODO,projectName));
     }
 
-    public void refreshIssueDoingGrid(IssueType type, String projectName){
-        gridDoing.setItems(issueService.getFilteredIssue(type,projectName));
+    public void refreshIssueDoingGrid(String projectName){
+        gridDoing.setItems(issueService.getFilteredIssue(IssueType.DOING,projectName));
     }
 
-    public void refreshIssueDoneGrid(IssueType type, String projectName){
-        gridDone.setItems(issueService.getFilteredIssue(type,projectName));
+    public void refreshIssueDoneGrid(String projectName){
+        gridDone.setItems(issueService.getFilteredIssue(IssueType.DONE,projectName));
     }
 
     public void refreshNoteGrid(String projectName){

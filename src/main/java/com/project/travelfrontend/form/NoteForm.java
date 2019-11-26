@@ -117,16 +117,14 @@ public class NoteForm extends VerticalLayout {
         return addNewNote;
     }
 
-    public void save(String projectName, Project project){
+    public void save(Project project){
         Note note = binder.getBean();
         note.setProject(project);
         noteService.saveNote(note);
-        workView.refreshNoteGrid(projectName);
     }
 
-    public void delete(String projectName){
+    public void delete(){
         Long id = binder.getBean().getId();
         noteService.deleteNoteById(id);
-        workView.refreshNoteGrid(projectName);
     }
 }
