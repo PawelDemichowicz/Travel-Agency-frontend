@@ -1,4 +1,4 @@
-package com.project.travelfrontend.domain;
+package com.project.kanbanfrontend.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

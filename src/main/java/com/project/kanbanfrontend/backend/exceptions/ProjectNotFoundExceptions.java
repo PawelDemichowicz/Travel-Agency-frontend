@@ -1,4 +1,4 @@
-package com.project.travelfrontend.exceptions;
+package com.project.kanbanfrontend.backend.exceptions;
 
 public class ProjectNotFoundExceptions extends  RuntimeException {
 }

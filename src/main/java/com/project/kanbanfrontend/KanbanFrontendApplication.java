@@ -1,13 +1,13 @@
-package com.project.travelfrontend;
+package com.project.kanbanfrontend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TravelFrontendApplication {
+public class KanbanFrontendApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TravelFrontendApplication.class, args);
+        SpringApplication.run(KanbanFrontendApplication.class, args);
     }
 
 }

@@ -1,7 +1,7 @@
-package com.project.travelfrontend.client;
+package com.project.kanbanfrontend.backend.client;
 
 
-import com.project.travelfrontend.domain.Note;
+import com.project.kanbanfrontend.backend.domain.Note;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestClientException;

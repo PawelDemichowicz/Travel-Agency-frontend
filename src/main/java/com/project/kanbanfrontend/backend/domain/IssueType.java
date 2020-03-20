@@ -1,4 +1,4 @@
-package com.project.travelfrontend.domain;
+package com.project.kanbanfrontend.backend.domain;
 
 import lombok.Getter;
 

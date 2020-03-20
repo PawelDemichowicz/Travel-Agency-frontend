@@ -1,6 +1,6 @@
-package com.project.travelfrontend.service;
+package com.project.kanbanfrontend.backend.service;
 
-import com.project.travelfrontend.domain.Task;
+import com.project.kanbanfrontend.backend.domain.Task;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

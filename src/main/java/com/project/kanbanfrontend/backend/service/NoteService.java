@@ -1,7 +1,7 @@
-package com.project.travelfrontend.service;
+package com.project.kanbanfrontend.backend.service;
 
-import com.project.travelfrontend.client.NoteClient;
-import com.project.travelfrontend.domain.Note;
+import com.project.kanbanfrontend.backend.client.NoteClient;
+import com.project.kanbanfrontend.backend.domain.Note;
 
 import java.util.List;
 import java.util.Objects;

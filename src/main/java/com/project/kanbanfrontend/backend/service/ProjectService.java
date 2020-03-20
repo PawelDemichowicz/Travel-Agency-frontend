@@ -1,7 +1,7 @@
-package com.project.travelfrontend.service;
+package com.project.kanbanfrontend.backend.service;
 
-import com.project.travelfrontend.client.ProjectClient;
-import com.project.travelfrontend.domain.Project;
+import com.project.kanbanfrontend.backend.client.ProjectClient;
+import com.project.kanbanfrontend.backend.domain.Project;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,9 +19,9 @@ public class ProjectService {
     }
 
     public List<String> getProjectsTitles(){
-        return  projectClient.getProjects().stream()
-                .map(Project::getTitle)
-                .collect(Collectors.toList());
+            return  projectClient.getProjects().stream()
+                    .map(Project::getTitle)
+                    .collect(Collectors.toList());
     }
 
     public Project getProjectWithTitle(String title){
